@@ -4,8 +4,14 @@
 
 from grafo import Grafo
 from vertice import Vertice
+from cenario import Cenario
 
 if __name__ == "__main__":
+
+    cenario = Cenario()
+    cenario.desenha()
+    cenario.imprimeCenario()
+    
     g1 = Grafo(False) #cria grafo não direcionado
     g1.ler_arquivo("cenario.txt")
 

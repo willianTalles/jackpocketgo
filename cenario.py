@@ -6,9 +6,9 @@ from cordenada_cenario import CordenadaCenario as Cordenada
 
 class Cenario:
     
-    def __init__( self, dimensao ):
+    def __init__( self ):
         super().__init__()
-        self.dimensao = dimensao
+        self.DIMENSAO = 16
         self.cenarioMatriz = []
         self.PAREDEVERTICAL = '|'
         self.PAREDEHORIZONTAL = '='
@@ -19,32 +19,27 @@ class Cenario:
     def desenha( self, grafo = None ):
         self._geraCenarioVazio()
 
-        for i in range( 0, self.dimensao ):
-            for j in range( 0, self.dimensao ):
-                cordenada = Cordenada( i, j )
-                  
-                if( cordenada.ehParedeVertical( self.dimensao ) ):
-                    self.cenarioMatriz[i][j] = self.PAREDEVERTICAL
-
-                elif( cordenada.ehParedeHorizontal( self.dimensao ) ):
-                    self.cenarioMatriz[i][j] = self.PAREDEHORIZONTAL
-                
-                # CONFIGURAR CONDIÇÃO PARA DESENHAR CORDENADAS DO GRAFO
-                elif():
-                    pass
-                # CONFIGURAR CONDIÇÃO PARA DESENHAR GRAFO COMPLEMENTAR
-                else:
-                    pass
-    
     def _geraCenarioVazio( self ):
         
-        for i in range( self.dimensao ):
+        for i in range( self.DIMENSAO ):
             linha = [] # lista vazia
-            for j in range( self.dimensao ):
+            for j in range( self.DIMENSAO ):
 	            linha.append( self.CAMINHO )
-	
-	        # coloque linha na matriz
+	        
+            # coloque linha na matriz
             self.cenarioMatriz.append( linha )
+        self._geraParedesExternas()
+
+    def _geraParedesExternas( self ):
+        for i in range( 0, self.DIMENSAO ):
+            for j in range( 0, self.DIMENSAO ):
+                cordenada = Cordenada( i, j )
+                  
+                if( cordenada.ehParedeVertical( self.DIMENSAO ) ):
+                    self.cenarioMatriz[i][j] = self.PAREDEVERTICAL
+
+                elif( cordenada.ehParedeHorizontal( self.DIMENSAO ) ):
+                    self.cenarioMatriz[i][j] = self.PAREDEHORIZONTAL
 
     def ehParedeVertical( self, cordenada ):
         if( self.cordenada["x"] != 0 and self.cordenada["x"] != self.dimensaoCenario
@@ -52,7 +47,7 @@ class Cenario:
             return True
 
     def imprimeCenario( self ):
-        for i in range( self.dimensao ):
-            for j in range( self.dimensao ):
+        for i in range( self.DIMENSAO ):
+            for j in range( self.DIMENSAO ):
                 print( self.cenarioMatriz[i][j], end="" )
             print("\n")
