@@ -8,11 +8,9 @@ from cenario import Cenario
 
 if __name__ == "__main__":
     
-    g1 = Grafo(False) #cria grafo não direcionado
-    g1.ler_arquivo("cenario.txt")
-
-    a = g1.get_arestas()
+    grafo = Grafo(False) #cria grafo não direcionado
+    grafo.ler_arquivo("cenario.txt")
 
     cenario = Cenario()
-    cenario.desenha( g1 )
+    cenario.desenha( grafo )
     cenario.imprimeCenario()

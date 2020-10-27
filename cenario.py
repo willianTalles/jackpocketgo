@@ -9,7 +9,7 @@ class Cenario:
     
     def __init__( self ):
         super().__init__()
-        self.DIMENSAO = 16
+        self.DIMENSAO = 18
         self.cenarioMatriz = []
         self.PAREDEVERTICAL = '|'
         self.PAREDEHORIZONTAL = '='
@@ -23,9 +23,28 @@ class Cenario:
         arestasGrafo = grafo.get_arestas()
 
         for pontoA, pontoB in arestasGrafo:
-            print( "%s - %s distancia %s" %( pontoA, pontoB, pontoA.get_peso( pontoB ) ) )
-            print( "rotulo do pontoA, linha: %s, coluna: %s" %( pontoA.get_rotulo()[0], pontoA.get_rotulo()[1] ) )
-            print( self._converterLetraEmPosicaoDaMatriz( pontoA.get_rotulo()[0] ) )
+            linhaPontoA = pontoA.get_rotulo()[0]
+            colunaPontoA = pontoA.get_rotulo()[1]
+
+            linhaPontoB = pontoB.get_rotulo()[0]
+            colunaPontoB = pontoB.get_rotulo()[1]
+
+            linhaCenarioMatriz = self._converterLetraEmPosicaoDaMatriz( linhaPontoA )
+            colunaCenarioMatriz = self._converterLetraEmPosicaoDaMatriz( colunaPontoA )
+
+            self.cenarioMatriz[ linhaCenarioMatriz ][ colunaCenarioMatriz ] = self.CAMINHO
+
+            # gostaria de refatorar esse if
+            if linhaPontoA == linhaPontoB:
+                for contadorCaminho in range( int( pontoA.get_peso( pontoB ) ) - 1 ):
+                    colunaCenarioMatriz = colunaCenarioMatriz + 1
+                    if colunaCenarioMatriz < self._converterLetraEmPosicaoDaMatriz( colunaPontoB ) and colunaCenarioMatriz < self.DIMENSAO - 1:
+                        self.cenarioMatriz[ linhaCenarioMatriz ][ colunaCenarioMatriz ] = self.CAMINHO
+            else:
+                for contadorCaminho in range( int( pontoA.get_peso( pontoB ) ) - 1 ):
+                    linhaCenarioMatriz = linhaCenarioMatriz + 1
+                    if linhaCenarioMatriz < self._converterLetraEmPosicaoDaMatriz( linhaPontoB ) and linhaCenarioMatriz < self.DIMENSAO - 1:
+                        self.cenarioMatriz[ linhaCenarioMatriz ][ colunaCenarioMatriz ] = self.CAMINHO
 
 
     def _geraCenarioVazio( self ):
@@ -33,7 +52,7 @@ class Cenario:
         for i in range( self.DIMENSAO ):
             linha = [] # lista vazia
             for j in range( self.DIMENSAO ):
-	            linha.append( self.CAMINHO )
+	            linha.append( self.OBSTACULO )
 	        
             # coloque linha na matriz
             self.cenarioMatriz.append( linha )
@@ -55,8 +74,7 @@ class Cenario:
             and self.cordenada["y"] == 0 or self.cordenada["y"] == self.dimensaoCenario ):
             return True
 
-    def _converterLetraEmPosicaoDaMatriz(self, letra):
-        
+    def _converterLetraEmPosicaoDaMatriz(self, letra):   
         if letra == "A":
             return 1
         elif letra == "B":
