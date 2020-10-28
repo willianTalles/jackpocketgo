@@ -1,23 +1,65 @@
-from utils import initialize_single_source, extract_min, relax
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+#dijkstra.py
 
-def dijkstra(g,s):
+from grafo import Grafo
+from vertice import Vertice
 
-	initialize_single_source(g,s)	
+class Dijkstra:
+	
+	'''
+	Classe que encontra o menor caminho em um grafo a partir de
+	uma origem e um destino utilizando o algoritmo de Dijkstra.
+	'''
 
-	S = []
-	Q = [v for v in g.get_vertices()]
+	def executaDijkstra(self, grafo, origem):
+		self._inicializarGrafo(grafo, origem)
 
-	while len(Q):
+		S = []
+		Q = [v for v in grafo.get_vertices()]
 
-		u = extract_min(Q)
+		while len(Q):
+			u = self._extrairMin(Q)
+			u.set_visitado()
+			S.append(u)
 
-		u.set_visitado()
+			for v in u.get_adjacentes():
+				if v.get_visitado():
+					continue
+				self._executaRelaxamento(u, v)
 
-		S.append(u)
 
-		for v in u.get_vertices_adjacentes():
+	def caminhoMinimoDijkstra(self, grafo, vOrigem, vDestino):
+		caminhoEncontrado = []
+		for v in grafo.get_vertices():
+			caminho = [v.get_rotulo()]
+			self.caminhoMinimo(v, caminho)
 
-			if v.get_visitado():
-				continue
+			comprimentoCaminho = len(caminho)
 
-			relax(u,v)
+			if(caminho[comprimentoCaminho-1] == vOrigem and caminho[0] == vDestino):
+				caminhoEncontrado.append(caminho)
+		
+		return caminhoEncontrado
+
+
+	def _inicializarGrafo(self, grafo, origem):
+		for v in grafo.get_vertices():
+			v.set_distancia(float('Infinity'))
+
+		grafo.get_vertice(origem).set_distancia(0)
+
+
+	def _executaRelaxamento(self, u, v):
+		if v.get_distancia() > u.get_distancia() + u.get_peso(v):
+			v.set_distancia(u.get_distancia() + u.get_peso(v))
+			v.set_predecessor(u)
+
+
+	def _extrairMin(self, Q):
+		min = Q[0]
+		for v in Q:
+			if v.get_distancia() < min.get_distancia():
+				min = v
+		Q.remove(min)
+		return min

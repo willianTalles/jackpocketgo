@@ -1,4 +1,4 @@
-﻿from grafo import grafo
+﻿from grafo import Grafo
 from bellman_ford import bellman_ford
 from utils import caminho_minino
 import sys
@@ -8,7 +8,7 @@ class peso_negativo(Exception):
 
 def test():
 
-	print 'Testando grafo de exemplo do livro Algoritmos 3rd (Cormen), página 480.'
+	print('Testando grafo de exemplo do livro Algoritmos 3rd (Cormen), página 480.')
 
 	g = grafo(direcionado=True)
 	
@@ -35,7 +35,7 @@ def test():
 	for v in g.get_vertices():
 		caminho = [v.get_id()]	
 		caminho_minino(v, caminho)
-		print 'O menor caminho é: %s com custo %d.' %(caminho[::-1], v.get_distancia())	
+		print('O menor caminho é: %s com custo %d.' %(caminho[::-1], v.get_distancia()))
 
 if __name__ == "__main__":
 	test()
