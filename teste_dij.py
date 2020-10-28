@@ -21,8 +21,8 @@ if __name__ == "__main__":
     
     caminho = []
     
-    if dij.executaDijkstra(grafo, verticeOrigem):
-        caminho = dij.caminhoMinimoDijkstra(grafo, verticeOrigem, verticeDestino)
-        
-        for c in caminho:
-            print(c[::-1])
+    print(verticeOrigem, verticeDestino)
+    dij.executaDijkstra(grafo, verticeOrigem)
+    caminho = dij.caminhoMinimoDijkstra(grafo, verticeOrigem, verticeDestino)
+    for c in caminho:
+        print(c[::-1])

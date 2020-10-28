@@ -28,6 +28,12 @@ class Dijkstra:
 					continue
 				self._executaRelaxamento(u, v)
 
+	def caminhoMinimo(self, v, caminho):
+		if v.get_predecessor():
+			caminho.append(v.get_predecessor().get_rotulo())
+			self.caminhoMinimo(v.get_predecessor(), caminho)
+        
+		return
 
 	def caminhoMinimoDijkstra(self, grafo, vOrigem, vDestino):
 		caminhoEncontrado = []
