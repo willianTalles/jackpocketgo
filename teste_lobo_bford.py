@@ -1,6 +1,6 @@
-﻿from grafo import grafo
-from bellman_ford import bellman_ford
-from utils import caminho_minino
+﻿from grafo import Grafo
+from bellman_ford import BellManFord
+#from utils import caminho_minino
 import sys
 
 class peso_negativo(Exception):
@@ -9,10 +9,10 @@ class peso_negativo(Exception):
 def test():
 
 	#disponivel http://www.fernandolobo.info/aed-II/teoricas/a24e25.print.pdf
-	print 'Testando grafo de exemplo das aulas do prof. Fernando Lobo da universidade Algarve in Portugal.'
+	print ('Testando Grafo de exemplo das aulas do prof. Fernando Lobo da universidade Algarve in Portugal.')
 
-	g = grafo(direcionado=True)
-	
+	g = Grafo(direcionado=True)
+	'''
 	g.inserir_vertice('a')
 	g.inserir_vertice('b')
 	g.inserir_vertice('c')
@@ -28,14 +28,19 @@ def test():
 	g.inserir_aresta('c','e',2)
 	g.inserir_aresta('d','e',7)
 	g.inserir_aresta('e','d',9)
-	
-	if bellman_ford(g,'a'):
+	'''
+	g.ler_arquivo("cenario.txt")
+	bmf = BellManFord();
+
+	if bmf.executaBellManFord(g,'AI'):
 		for v in g.get_vertices():
-			caminho = [v.get_id()]	
-			caminho_minino(v, caminho)
-			print 'O menor caminho é: %s com custo %d.' %(caminho[::-1], v.get_distancia())	
+			caminho = [v.get_rotulo()]	
+			bmf.caminhoMinimo(v, caminho)
+			tamanhoCaminho = len(caminho)
+			if( caminho[tamanhoCaminho-1] == 'AI' and caminho[0] == "CM"):
+				print ('O menor caminho é: %s com custo %s.' %(caminho[::-1], v.get_distancia())	)
 	else:
-		print 'Ciclo negativo encontrado'
+		print ('Ciclo negativo encontrado')
 
 if __name__ == "__main__":
 	test()
