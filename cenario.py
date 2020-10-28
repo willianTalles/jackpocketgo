@@ -23,6 +23,10 @@ class Cenario:
         arestasGrafo = grafo.get_arestas()
 
         for pontoA, pontoB in arestasGrafo:
+            # print( "%s - %s distancia %s" %( pontoA, pontoB, pontoA.get_peso( pontoB ) ) )
+            # print( "rotulo do pontoA, linha: %s, coluna: %s" %( pontoA.get_rotulo()[0], pontoA.get_rotulo()[1] ) )
+            # print( self._converterLetraEmPosicaoDaMatriz( pontoA.get_rotulo()[0] ) )
+            
             linhaPontoA = pontoA.get_rotulo()[0]
             colunaPontoA = pontoA.get_rotulo()[1]
 

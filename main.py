@@ -5,6 +5,7 @@
 from grafo import Grafo
 from vertice import Vertice
 from cenario import Cenario
+from camera import Camera
 
 if __name__ == "__main__":
     
@@ -14,3 +15,5 @@ if __name__ == "__main__":
     cenario = Cenario()
     cenario.desenha( grafo )
     cenario.imprimeCenario()
+
+    Camera = Camera( "PP", grafo.get_vertices() ) 
