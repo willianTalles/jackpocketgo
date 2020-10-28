@@ -62,7 +62,7 @@ class BellManFord:
             #print ('O menor caminho é: %s com custo %d.' %(caminho[::-1], v.get_distancia()))
 
             comprimentoCaminho = len(caminho)
-            if(caminho[0] == verticeOrigem and caminho[comprimentoCaminho-1] == verticeDestino):
-                caminhoEncontrado.append(c)
+            if(caminho[comprimentoCaminho-1] == verticeOrigem and caminho[0] == verticeDestino):
+                caminhoEncontrado.append(caminho)
         
         return caminhoEncontrado
