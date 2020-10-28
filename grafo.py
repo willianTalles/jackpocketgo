@@ -57,7 +57,7 @@ class Grafo:
 		linha = dados.readline()
 		while linha:
 			aresta = linha.replace("\n","").split(" ")
-			self.inserir_aresta(aresta[0], aresta[1], aresta[2])
+			self.inserir_aresta(aresta[0], aresta[1], float(aresta[2]))
 			linha = dados.readline()
 
 		dados.close()

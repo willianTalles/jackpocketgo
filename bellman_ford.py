@@ -21,37 +21,48 @@ class BellManFord:
         '''
         self._inicializarGrafo( grafo, origem )
 
-        for u in grafo.getListaVertices():
-            for u,v in grafo.getArestas():
-                if v.getVisitado():
+        for u in grafo.get_vertices():
+            for u,v in grafo.get_arestas():
+                if v.get_visitado():
                     continue
                 
                 self._executaRelaxamento( u, v )
         
-        for u,v in grafo.getArestas():
-            if v.getDistancia() > u.getDistancia() + u.getCusto( v ):
+        for u,v in grafo.get_arestas():
+            if v.get_distancia() > u.get_distancia() + u.get_peso( v ):
                 return False
         
         return True                
 
     
     def _inicializarGrafo( self, grafo, origem ):
-        for v in grafo.getListaVertices():
-            v.setDistancia( float('inf') )
+        for v in grafo.get_vertices():
+            v.set_distancia( float('Infinity') )
         
-        grafo.getVertice( origem ).setDistancia( 0 )
+        grafo.get_vertice( origem ).set_distancia( 0 )
     
     def _executaRelaxamento( self, u, v ):
-        if v.getDistancia() > u.getDistancia() + u.getCusto( v ):
-            v.setDistancia( u.getDistancia() + u.getCusto( v ) )
-            v.setAnterior( u )
+        if v.get_distancia() > u.get_distancia() + u.get_peso( v ):
+            v.set_distancia( u.get_distancia() + u.get_peso( v ) )
+            v.set_predecessor( u )
     
-    def _caminhoMinimo( self, v, caminho ):
-        if v.getAnterior():
-            caminho.append( v.getAnterior().getRotulo() )
-            self._caminhoMinimo( v.getAnterior(), caminho )
+    def caminhoMinimo( self, v, caminho ):
+        if v.get_predecessor():
+            caminho.append( v.get_predecessor().get_rotulo() )
+            self.caminhoMinimo( v.get_predecessor(), caminho )
         
         return
+    
+    def caminhoMinimoBellmanFord( self, grafo, verticeOrigem, verticeDestino ):
+        caminhoEncontrado = []
+        for v in grafo.get_vertices():
+                
+            caminho = [v.get_rotulo()]
+            self.caminhoMinimo( v,caminho )
+            #print ('O menor caminho é: %s com custo %d.' %(caminho[::-1], v.get_distancia()))
 
-
+            comprimentoCaminho = len(caminho)
+            if(caminho[0] == verticeOrigem and caminho[comprimentoCaminho-1] == verticeDestino):
+                caminhoEncontrado.append(c)
         
+        return caminhoEncontrado
