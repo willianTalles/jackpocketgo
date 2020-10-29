@@ -12,8 +12,7 @@ if __name__ == "__main__":
     grafo = Grafo(False) #cria grafo não direcionado
     grafo.ler_arquivo("cenario.txt")
 
-    cenario = Cenario()
+    cenario = Cenario( grafo )
     cenario.desenha( grafo )
     cenario.imprimeCenario()
-
-    Camera = Camera( "PP", grafo.get_vertices() ) 
+    localizacao = cenario.procurarJackComCamera()

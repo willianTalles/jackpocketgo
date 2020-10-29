@@ -11,15 +11,17 @@ class Camera:
         self.DISTANCIADOCAMPODEVISAO = 4
         self.CAMPODEVISAO = self._gerarCampoDeVisao(self.posicao, vertices)
 
+    def getPosicao( self ):
+        return self.posicao
+    
+    def getCampoDeVisao( self ):
+        return self.CAMPODEVISAO
     
     def _gerarCampoDeVisao(self, posicao, vertices):
-        campoDeVisao = set()
+        campoDeVisao = None
         
         for vertice in vertices:
-            if vertice.get_rotulo() == posicao:
-                verticeAdjacenteAPosicao = vertice.get_adjacentes()
-                for verticeAdjacente in verticeAdjacenteAPosicao:
-                    if int(verticeAdjacente.get_peso(vertice)) <= self.DISTANCIADOCAMPODEVISAO:
-                        campoDeVisao.add( ( vertice, verticeAdjacente ) )
-        
+            if vertice == posicao:
+                campoDeVisao = vertice.get_adjacentes()
+
         return campoDeVisao

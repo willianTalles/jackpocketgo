@@ -4,10 +4,11 @@
 
 from cordenada_cenario import CordenadaCenario as Cordenada
 from grafo import Grafo
+from camera import Camera
 
 class Cenario:
     
-    def __init__( self ):
+    def __init__( self, grafo ):
         super().__init__()
         self.DIMENSAO = 18
         self.cenarioMatriz = []
@@ -15,6 +16,8 @@ class Cenario:
         self.PAREDEHORIZONTAL = '='
         self.OBSTACULO = '#'
         self.CAMINHO = '.'
+        self.JACK = 'J'
+        self.camera = Camera( grafo.get_vertices()[6], grafo.get_vertices() )
         
 
     def desenha( self, grafo = None ):
@@ -23,9 +26,6 @@ class Cenario:
         arestasGrafo = grafo.get_arestas()
 
         for pontoA, pontoB in arestasGrafo:
-            # print( "%s - %s distancia %s" %( pontoA, pontoB, pontoA.get_peso( pontoB ) ) )
-            # print( "rotulo do pontoA, linha: %s, coluna: %s" %( pontoA.get_rotulo()[0], pontoA.get_rotulo()[1] ) )
-            # print( self._converterLetraEmPosicaoDaMatriz( pontoA.get_rotulo()[0] ) )
             
             linhaPontoA = pontoA.get_rotulo()[0]
             colunaPontoA = pontoA.get_rotulo()[1]
@@ -50,6 +50,7 @@ class Cenario:
                     if linhaCenarioMatriz < self._converterLetraEmPosicaoDaMatriz( linhaPontoB ) and linhaCenarioMatriz < self.DIMENSAO - 1:
                         self.cenarioMatriz[ linhaCenarioMatriz ][ colunaCenarioMatriz ] = self.CAMINHO
 
+        self.cenarioMatriz[5][5] = self.JACK
 
     def _geraCenarioVazio( self ):
         
@@ -78,7 +79,7 @@ class Cenario:
             and self.cordenada["y"] == 0 or self.cordenada["y"] == self.dimensaoCenario ):
             return True
 
-    def _converterLetraEmPosicaoDaMatriz(self, letra):   
+    def _converterLetraEmPosicaoDaMatriz( self, letra ):   
         if letra == "A":
             return 1
         elif letra == "B":
@@ -120,3 +121,60 @@ class Cenario:
             for j in range( self.DIMENSAO ):
                 print( self.cenarioMatriz[i][j], end="" )
             print("\n")
+    
+    # esse metodo retorna uma tupla com a aresta (verticeA, VerticeB) que está Jack
+    def procurarJackComCamera( self ):
+        posicaoDaCamera = self.camera.getPosicao()
+        campoDeVisaoDaCamera = self.camera.getCampoDeVisao()
+
+        localizacaoDeJack = set()
+        
+        for verticeAdjacente in campoDeVisaoDaCamera:
+            
+            linhaposicaoDaCamera = posicaoDaCamera.get_rotulo()[0]
+            linhaposicaoDaCamera = self._converterLetraEmPosicaoDaMatriz( linhaposicaoDaCamera )
+
+            colunaposicaoDaCamera = posicaoDaCamera.get_rotulo()[1]
+            colunaposicaoDaCamera = self._converterLetraEmPosicaoDaMatriz( colunaposicaoDaCamera )
+
+            linhaverticeAdjacente = verticeAdjacente.get_rotulo()[0]
+            linhaverticeAdjacente = self._converterLetraEmPosicaoDaMatriz( linhaverticeAdjacente )
+            
+            colunaverticeAdjacente = verticeAdjacente.get_rotulo()[1]
+            colunaverticeAdjacente = self._converterLetraEmPosicaoDaMatriz( colunaverticeAdjacente )
+            
+            if linhaposicaoDaCamera == linhaverticeAdjacente:
+                if colunaposicaoDaCamera > colunaverticeAdjacente:
+                    for contadorDeCaminho in range(4):
+                        colunaverticeAdjacente = colunaverticeAdjacente + 1
+                        
+                        if self.cenarioMatriz[ linhaverticeAdjacente ][ colunaverticeAdjacente] == self.JACK:
+                            print("1 Detectou jack na aresta!", posicaoDaCamera,"-", verticeAdjacente)
+                            localizacaoDeJack.add( ( posicaoDaCamera, verticeAdjacente ) )
+                            return localizacaoDeJack
+                else:
+                    for contadorDeCaminho in range(4):
+                        colunaposicaoDaCamera = colunaposicaoDaCamera + 1
+                        
+                        if self.cenarioMatriz[ linhaposicaoDaCamera ][ colunaposicaoDaCamera ] == self.JACK:
+                            print("2 Detectou jack na aresta!", posicaoDaCamera,"-", verticeAdjacente)
+                            localizacaoDeJack.add( ( posicaoDaCamera, verticeAdjacente ) )
+                            return localizacaoDeJack
+            else:
+               
+                if linhaposicaoDaCamera > linhaverticeAdjacente:
+                    for contadorDeCaminho in range(4):
+                        linhaverticeAdjacente = linhaverticeAdjacente + 1
+                        
+                        if self.cenarioMatriz[ linhaverticeAdjacente ][ colunaverticeAdjacente] == self.JACK:
+                            print("3 Detectou jack na aresta!", posicaoDaCamera,"-", verticeAdjacente)
+                            localizacaoDeJack.add( ( posicaoDaCamera, verticeAdjacente ) )
+                            return localizacaoDeJack
+                else:
+                    for contadorDeCaminho in range(4):
+                        linhaposicaoDaCamera = linhaposicaoDaCamera + 1
+                        
+                        if self.cenarioMatriz[ linhaposicaoDaCamera ][ colunaposicaoDaCamera ] == self.JACK:
+                            print("4 Detectou jack na aresta!", posicaoDaCamera,"-", verticeAdjacente)
+                            localizacaoDeJack.add( ( posicaoDaCamera, verticeAdjacente ) )
+                            return localizacaoDeJack
