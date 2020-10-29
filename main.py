@@ -6,6 +6,7 @@ from grafo import Grafo
 from vertice import Vertice
 from cenario import Cenario
 from camera import Camera
+from guarda import Guarda
 
 if __name__ == "__main__":
     
@@ -15,4 +16,8 @@ if __name__ == "__main__":
     cenario = Cenario( grafo )
     cenario.desenha( grafo )
     cenario.imprimeCenario()
+    
     localizacao = cenario.procurarJackComCamera()
+
+    guarda = Guarda( grafo )
+    guarda.gerarCaminhoParaPegarJack( localizacao )

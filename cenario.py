@@ -10,15 +10,15 @@ class Cenario:
     
     def __init__( self, grafo ):
         super().__init__()
-        self.DIMENSAO = 18
-        self.cenarioMatriz = []
-        self.PAREDEVERTICAL = '|'
+        self.camera = Camera( grafo.get_vertices()[6], grafo.get_vertices() )
         self.PAREDEHORIZONTAL = '='
+        self.PAREDEVERTICAL = '|'
+        self.cenarioMatriz = []
         self.OBSTACULO = '#'
+        self.DIMENSAO = 18
         self.CAMINHO = '.'
         self.JACK = 'J'
-        self.camera = Camera( grafo.get_vertices()[6], grafo.get_vertices() )
-        
+        self.GUARDA = 'G'
 
     def desenha( self, grafo = None ):
         self._geraCenarioVazio()
@@ -26,6 +26,9 @@ class Cenario:
         arestasGrafo = grafo.get_arestas()
 
         for pontoA, pontoB in arestasGrafo:
+            # print( "%s - %s distancia %s" %( pontoA, pontoB, pontoA.get_peso( pontoB ) ) )
+            # print( "rotulo do pontoA, linha: %s, coluna: %s" %( pontoA.get_rotulo()[0], pontoA.get_rotulo()[1] ) )
+            # print( self._converterLetraEmPosicaoDaMatriz( pontoA.get_rotulo()[0] ) )
             
             linhaPontoA = pontoA.get_rotulo()[0]
             colunaPontoA = pontoA.get_rotulo()[1]
@@ -122,8 +125,10 @@ class Cenario:
                 print( self.cenarioMatriz[i][j], end="" )
             print("\n")
     
-    # esse metodo retorna uma tupla com a aresta (verticeA, VerticeB) que está Jack
+    
     def procurarJackComCamera( self ):
+    # esse metodo retorna uma tupla com a aresta 
+    # (verticeA, VerticeB) que está Jack
         posicaoDaCamera = self.camera.getPosicao()
         campoDeVisaoDaCamera = self.camera.getCampoDeVisao()
 

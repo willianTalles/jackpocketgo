@@ -38,7 +38,7 @@ class BellManFord:
     def _inicializarGrafo( self, grafo, origem ):
         for v in grafo.get_vertices():
             v.set_distancia( float('Infinity') )
-        
+    
         grafo.get_vertice( origem ).set_distancia( 0 )
     
     def _executaRelaxamento( self, u, v ):

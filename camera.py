@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
-#cenario.py#!/usr/bin/env python3
+#camera.py#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 #camera.py
 
