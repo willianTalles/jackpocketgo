@@ -5,6 +5,7 @@
 #guarda.py
 
 from bellman_ford import BellManFord
+from dijkstra import Dijkstra
 
 class Guarda():
     def __init__( self, grafo ):
@@ -18,14 +19,16 @@ class Guarda():
         for destinoPrincipal, destidoSecundario in destino:
             print("Meu destino principal é:", destinoPrincipal, "meu destino secundario é:", destidoSecundario)
 
-        self._procurarMenorCaminhaAteJackComBellmanFord( self.posicao, destinoPrincipal )
+        self._procurarMenorCaminhoAteJack( self.posicao, destinoPrincipal )
 
-    def _procurarMenorCaminhaAteJackComBellmanFord( self, verticeOrigem, verticeDestino):
+    def _procurarMenorCaminhoAteJack( self, verticeOrigem, verticeDestino):
         verticesDoCaminho = []
-        
-        bellmanFord = BellManFord()
-        if bellmanFord.executaBellManFord( self.caminhosDoCenario, verticeOrigem ):
-            verticesDoCaminho = bellmanFord.caminhoMinimoBellmanFord( self.caminhosDoCenario, verticeOrigem, verticeDestino )
-        
-        for vertice in verticesDoCaminho:
-            print(vertice)
+
+        print("Guarda na posição: ", self.posicao)
+        print("Encontrou caminho mais curto até Jack: ", end="")
+
+        DKST = Dijkstra()
+        DKST.executaDijkstra(self.caminhosDoCenario, verticeOrigem.get_rotulo())
+        caminho = DKST.caminhoMinimoDijkstra(self.caminhosDoCenario, verticeOrigem.get_rotulo(), verticeDestino.get_rotulo() )
+        for c in caminho:
+            print(c[::-1])

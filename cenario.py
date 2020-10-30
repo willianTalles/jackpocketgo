@@ -129,6 +129,7 @@ class Cenario:
     def procurarJackComCamera( self ):
     # esse metodo retorna uma tupla com a aresta 
     # (verticeA, VerticeB) que está Jack
+        print("Procurando Jack com a câmera...")
         posicaoDaCamera = self.camera.getPosicao()
         campoDeVisaoDaCamera = self.camera.getCampoDeVisao()
 
